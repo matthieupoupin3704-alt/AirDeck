@@ -4,13 +4,9 @@ AirDeck is a Decky Loader plugin for the Steam Deck that integrates mobile media
 
 It controls your music (Apple Music so no Cider to buy, Spotify, etc.) playing from your phone or external device right while gaming. It is really useful to play Forza Horizon 6.
 
----
-
-## 📸 Preview
-
-![AirDeck Interface Screenshot](images/main_menu.png)
-
----
+<p align="center">
+  <img src="images/main_menu.png" alt="AirDeck Interface Screenshot" width="600">
+</p>!
 
 ---
 
