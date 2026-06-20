@@ -1,5 +1,9 @@
 # AirDeck 🎧
 
+<p align="center">
+  <img src="assets/header.png" alt="AirDeck" width="600">
+</p>
+
 AirDeck is a Decky Loader plugin for the Steam Deck that integrates mobile media playback controls directly into the Quick Access Menu (QAM) via Bluetooth (BlueZ DBus).
 
 It controls your music (Apple Music so no Cider to buy, Spotify, etc.) playing from your phone or external device right while gaming. It is really useful to play Forza Horizon 6.
@@ -35,19 +39,26 @@ To avoid typing your password every time, it is highly recommended to copy your 
 ```bash
 ssh-copy-id deck@<YOUR_STEAM_DECK_IP>
 
+```
+
 Once set up, you can build and deploy the plugin with the following commands. Replace <YOUR_STEAM_DECK_IP> with your Deck's actual IP address:
 
 # 1. Build the frontend
+```bash
 pnpm build
+````
 
 # 2. Deploy files to the Steam Deck
+```bash
 DECK_IP="<YOUR_STEAM_DECK_IP>"
 PLUGIN_DIR="~/homebrew/plugins/AppleMusicDeck"
 
 scp dist/index.js deck@$DECK_IP:$PLUGIN_DIR/dist/
 scp main.py deck@$DECK_IP:$PLUGIN_DIR/
+```
 
 # 3. Restart Decky to apply changes (Enter your sudo password when prompted)
+```bash
 ssh -t deck@$DECK_IP "sudo systemctl restart plugin_loader"
 ```
 
