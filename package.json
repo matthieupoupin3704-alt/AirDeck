@@ -1,7 +1,7 @@
 {
-  "name": "decky-plugin-template",
-  "version": "0.0.1",
-  "description": "A template to quickly create decky plugins from scratch, based on TypeScript and webpack",
+  "name": "decky-airdeck",
+  "version": "0.1.0",
+  "description": "Control music playing from your phone over Bluetooth on Steam Deck.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
@@ -10,21 +10,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SteamDeckHomebrew/decky-plugin-template.git"
+    "url": "git+https://github.com/matthieupoupin3704-alt/AirDeck.git"
   },
   "keywords": [
     "decky",
     "plugin",
-    "plugin-template",
     "steam-deck",
-    "deck"
+    "deck",
+    "music",
+    "bluetooth",
+    "avrcp"
   ],
-  "author": "You <you@you.tld>",
+  "author": "Matthieu \"Chebman\" Poupin (https://github.com/matthieupoupin3704-alt)",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/SteamDeckHomebrew/decky-plugin-template/issues"
+    "url": "https://github.com/matthieupoupin3704-alt/AirDeck/issues"
   },
-  "homepage": "https://github.com/SteamDeckHomebrew/decky-plugin-template#readme",
+  "homepage": "https://github.com/matthieupoupin3704-alt/AirDeck#readme",
   "devDependencies": {
     "@decky/rollup": "^1.0.2",
     "@decky/ui": "^4.11.0",
