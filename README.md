@@ -6,7 +6,7 @@
 
 AirDeck is a Decky Loader plugin for the Steam Deck that integrates mobile media playback controls directly into the Quick Access Menu (QAM) via Bluetooth (BlueZ DBus).
 
-It controls your music (Apple Music so no Cider to buy, Spotify, etc.) playing from your phone or external device right while gaming. It is really useful to play Forza Horizon 6.
+It controls music playing from your phone over Bluetooth — works with **any app** that exposes AVRCP (Apple Music, Spotify, SoundCloud, YouTube Music, etc.) without any extra software on your phone.
 
 <p align="center">
   <img src="images/main_menu.png" alt="AirDeck Interface Screenshot" width="600">
@@ -43,21 +43,21 @@ ssh-copy-id deck@<YOUR_STEAM_DECK_IP>
 
 Once set up, you can build and deploy the plugin with the following commands. Replace <YOUR_STEAM_DECK_IP> with your Deck's actual IP address:
 
-# 1. Build the frontend
+### 1. Build the frontend
 ```bash
 pnpm build
-````
+```
 
-# 2. Deploy files to the Steam Deck
+### 2. Deploy files to the Steam Deck
 ```bash
 DECK_IP="<YOUR_STEAM_DECK_IP>"
-PLUGIN_DIR="~/homebrew/plugins/AppleMusicDeck"
+PLUGIN_DIR="~/homebrew/plugins/AirDeck"
 
 scp dist/index.js deck@$DECK_IP:$PLUGIN_DIR/dist/
 scp main.py deck@$DECK_IP:$PLUGIN_DIR/
 ```
 
-# 3. Restart Decky to apply changes (Enter your sudo password when prompted)
+### 3. Restart Decky to apply changes
 ```bash
 ssh -t deck@$DECK_IP "sudo systemctl restart plugin_loader"
 ```
@@ -78,7 +78,7 @@ Contributions are welcome! If you want to help improve AirDeck, follow these ste
 1. **Fork** the repository.
 2. **Clone** your fork locally:
 ```bash
-   git clone [https://github.com/](https://github.com/)<YOUR_USERNAME>/AirDeck.git
+   git clone https://github.com/<YOUR_USERNAME>/AirDeck.git
 ```
 3. **Install** frontend dependencies:
 ````bash
