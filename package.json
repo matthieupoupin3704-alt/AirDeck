@@ -22,7 +22,7 @@
     "avrcp"
   ],
   "author": "Matthieu \"Chebman\" Poupin (https://github.com/matthieupoupin3704-alt)",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/matthieupoupin3704-alt/AirDeck/issues"
   },
