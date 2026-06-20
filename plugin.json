@@ -1,0 +1,10 @@
+{
+  "name": "AirDeck",
+  "author": "Matthieu \"Chebman\" Poupin",
+  "api_version": 1,
+  "flags": [],
+  "publish": {
+    "tags": ["music","audio","bluetooth","avrcp","streaming"],
+    "description": "Control music playing from your phone over Bluetooth on Steam Deck."
+  }
+}

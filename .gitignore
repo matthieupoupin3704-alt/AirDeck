@@ -1,0 +1,26 @@
+# --- Node / pnpm (frontend Decky) ---
+node_modules/
+dist/
+out/
+*.log
+.pnpm-store/
+.pnpm-debug.log*
+
+# --- Python (backend du plugin) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# --- Decky / packaging ---
+*.zip
+.cache/
+
+# --- OS / éditeur ---
+.DS_Store
+.vscode/
+*.swp
+
+# --- Perso / brouillons ---
+FORME.md
