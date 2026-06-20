@@ -13,7 +13,7 @@ It controls music playing from your phone over Bluetooth: works with **any app**
 </p>
 
 <p align="center">
-  <img src="images/connect_bg.png" alt="AirDeck Bluetooth Device Missing Interface Screenshot" width="600">
+  <img src="images/connect_bt.png" alt="AirDeck Bluetooth Device Missing Interface Screenshot" width="600">
 </p>
 
 ---
