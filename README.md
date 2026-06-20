@@ -6,7 +6,7 @@ It controls your music (Apple Music so no Cider to buy, Spotify, etc.) playing f
 
 <p align="center">
   <img src="images/main_menu.png" alt="AirDeck Interface Screenshot" width="600">
-</p>!
+</p>
 
 ---
 
