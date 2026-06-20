@@ -43,8 +43,50 @@ scp main.py deck@$DECK_IP:$PLUGIN_DIR/
 
 # 3. Restart Decky to apply changes (Enter your sudo password when prompted)
 ssh -t deck@$DECK_IP "sudo systemctl restart plugin_loader"
+```
 
 Checking Logs
 To monitor your plugin's backend logs and debug API fetches (iTunes/MusicBrainz) or DBus signals in real-time:
 
+```bash
 ssh deck@<YOUR_STEAM_DECK_IP> "journalctl -u plugin_loader -f --no-pager | grep -i 'bluez\|apple\|artwork'"
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you want to help improve AirDeck, follow these steps:
+
+1. **Fork** the repository.
+2. **Clone** your fork locally:
+```bash
+   git clone [https://github.com/](https://github.com/)<YOUR_USERNAME>/AirDeck.git
+```
+3. **Install** frontend dependencies:
+````bash
+pnpm install
+````
+
+4. **Create** a new branch for your feature or bugfix:
+```bash
+git checkout -b feature/amazing-feature
+```
+
+5. **Commit** your changes and push them to your fork:
+```bash
+git commit -m "feat: add some really truly cool feature"
+git push origin feature/WOW-feature
+```
+6. **Open** a Pull Request on the main repository.
+
+I'm not an role model on code clean-ness, but please make sure your code is clean and properly documented before submitting a PR.
+
+---
+
+## Upcoming Fixes & Features
+
+Looking to help or wondering what's next? Here is the current focus for AirDeck development:
+
+* [ ] **Real-time Progress Bar Updates:** Fix the progress bar and timer to smoothly update when seeking directly from the connected mobile device (currently it only synchronizes on Play/Pause states). Honestly i got no clue on how to do that. I tried to search, but well.
+* [ ] **Steam Deck Position Control:** Implement manual playback positioning and scrubbing directly from the SteamOS Quick Access Menu interface.
