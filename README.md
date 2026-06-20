@@ -12,10 +12,6 @@ It controls music playing from your phone over Bluetooth: works with **any app**
   <img src="images/main_menu.png" alt="AirDeck Interface Screenshot" width="600">
 </p>
 
-<p align="center">
-  <img src="images/connect_bt.png" alt="AirDeck Bluetooth Device Missing Interface Screenshot" width="600">
-</p>
-
 ---
 
 ## Features
