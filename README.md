@@ -6,12 +6,22 @@ It controls your music (Apple Music so no Cider to buy, Spotify, etc.) playing f
 
 ---
 
+## 📸 Preview
+
+![AirDeck Interface Screenshot](images/main_menu.png)
+
+---
+
+---
+
 ## Features
 
 * **Media Controls:** Play, Pause, Next, Previous, Shuffle, Repeat and Track Positioning directly from SteamOS.
 * **Now Playing Info:** Displays track title, artist and cover via a Toast Notification.
+
+![AirDeck Toast Notification Screenshot (sorry for the poor quality)](images/toastnotif.png)
+
 * **Artwork Fetching:** Dynamically fetches (iTunes and MusicBrainz APIs) and displays album art via Bluetooth metadata, since this information is not conveyed through AVRCP.
-* **As Lightweight As Possible:** Built using native BlueZ DBus interfaces (`org.bluez.MediaPlayer1`).
 
 ---
 
