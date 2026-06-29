@@ -439,14 +439,15 @@ class AirDeckStore {
     const bluezPos = m?.position ?? 0;
 
     const key = `${m?.title ?? ""}|${m?.artist ?? ""}`;
+    const notifKey = m?.title ?? "";
     let position = this.state.position;
 
     if (key !== this.trackKey) {
       const prevKey = this.trackKey;
       this.trackKey = key;
       position = bluezPos;
-      if (prevKey !== "" && playing && m?.title && this.notifyEnabled && key !== this.notifiedKey) {
-        this.notifiedKey = key;
+      if (prevKey !== "" && playing && m?.title && this.notifyEnabled && notifKey !== this.notifiedKey) {
+        this.notifiedKey = notifKey;
         const art = m?.art_url;
         toaster.toast({
           title: m.title,
