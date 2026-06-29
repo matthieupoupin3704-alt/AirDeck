@@ -107,3 +107,4 @@ Looking to help or wondering what's next? Here is the current focus for AirDeck 
 
 * [ ] **Real-time Progress Bar Updates:** Fix the progress bar and timer to smoothly update when seeking directly from the connected mobile device (currently it only synchronizes on Play/Pause states). Honestly i got no clue on how to do that. I tried to search, but well.
 * [ ] **Steam Deck Position Control:** Implement manual playback positioning and scrubbing directly from the SteamOS Quick Access Menu interface.
+* [ ] **Notification Timing:** Track change notifications can arrive late or chain rapidly when skipping quickly. This is a BlueZ/AVRCP limitation: the phone reports metadata with a delay we cannot control from the Steam Deck side.
