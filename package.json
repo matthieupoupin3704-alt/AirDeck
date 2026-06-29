@@ -1,6 +1,6 @@
 {
   "name": "decky-airdeck",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Control music playing from your phone over Bluetooth on Steam Deck.",
   "type": "module",
   "scripts": {
