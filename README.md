@@ -9,7 +9,7 @@ AirDeck is a Decky Loader plugin for the Steam Deck that integrates mobile media
 It controls music playing from your phone over Bluetooth: works with **any app** that exposes AVRCP (Apple Music, Spotify, SoundCloud, YouTube Music, etc.) without any extra software on your phone/Steam Deck.
 
 <p align="center">
-  <img src="images/main_menu.png" alt="AirDeck Interface Screenshot" width="600">
+  <img src="images/screenshot.png" alt="AirDeck Interface Screenshot" width="600">
 </p>
 
 ---

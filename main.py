@@ -145,8 +145,8 @@ async def _fetch_artwork(cache: dict, title: str, artist: str) -> str:
             headers={"User-Agent": "AirDeck/1.0 (decky-plugin)"},
             connector=connector
         ) as session:
-            # Provider priority. MusicBrainz first, iTunes as fallback.
-            for provider in (_from_musicbrainz, _from_itunes):
+            # Provider priority. iTunes first, MusicBrainz as fallback.
+            for provider in (_from_itunes, _from_musicbrainz):
                 url = await provider(session)
                 if url:
                     cache[key] = url

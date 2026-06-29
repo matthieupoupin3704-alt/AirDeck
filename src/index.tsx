@@ -356,7 +356,8 @@ class AirDeckStore {
   };
 
   private listeners = new Set<() => void>();
-  private trackKey = "";        // persists across panel open/close
+  private trackKey = "";
+  private notifiedKey = "";
   private length = 0;
   private shuffleLock = 0;
   private repeatLock = 0;
@@ -394,19 +395,18 @@ class AirDeckStore {
   lockRepeat(v: boolean) { this.repeatLock = Date.now() + 3000; this.set({ onRepeat: v }); }
   setPlaying(v: boolean) { this.set({ isPlaying: v }); }
 
+  private tickId?: number;
+
   start() {
-    if (this.intervalId !== undefined) return; // already running
-    // Single 1s loop. Every second we interpolate the position locally; every 3rd second
-    // we hit BlueZ. One timeline → no race between two intervals fighting over position.
-    this.intervalId = window.setInterval(() => {
-      this.tick();
-      this.poll();
-    }, 1000);
-    this.poll(); // prime immediately on start
+    if (this.intervalId !== undefined) return;
+    this.intervalId = window.setInterval(() => this.poll(), 500);
+    this.tickId = window.setInterval(() => this.tick(), 1000);
+    this.poll();
   }
 
   stop() {
     if (this.intervalId !== undefined) { window.clearInterval(this.intervalId); this.intervalId = undefined; }
+    if (this.tickId !== undefined) { window.clearInterval(this.tickId); this.tickId = undefined; }
   }
 
   private tick() {
@@ -445,8 +445,8 @@ class AirDeckStore {
       const prevKey = this.trackKey;
       this.trackKey = key;
       position = bluezPos;
-      // Toast on real track change while playing (skip first load + empty tracks + if disabled).
-      if (prevKey !== "" && playing && m?.title && this.notifyEnabled) {
+      if (prevKey !== "" && playing && m?.title && this.notifyEnabled && key !== this.notifiedKey) {
+        this.notifiedKey = key;
         const art = m?.art_url;
         toaster.toast({
           title: m.title,
