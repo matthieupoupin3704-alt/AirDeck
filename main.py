@@ -4,7 +4,6 @@ import subprocess
 import asyncio
 import aiohttp
 import decky_plugin
-import time
 
 BLUEZ_IFACE = "org.bluez.MediaPlayer1"
 BLUEZ_PATH_RE = re.compile(r"/org/bluez/hci\d+/dev_[0-9A-F_]+/avrcp/player\d+$")
@@ -166,11 +165,6 @@ async def _fetch_artwork(cache: dict, title: str, artist: str) -> str:
 class Plugin:
     _bluez_path = None
     _artwork_cache: dict = {}
-    _loop_task: asyncio.Task | None = None
-
-    _last_pos_ms = 0
-    _last_pos_fetched_at = 0.0
-    _last_status = "stopped"
 
     async def get_metadata(self):
         path = self._bluez_path
@@ -182,17 +176,6 @@ class Plugin:
         track = props.get("Track", {}).get("data", {})
         if not isinstance(track, dict):
             track = {}
-        
-        now = time.time()
-        pos_data = _bluez_get(path, "Position")
-        if pos_data and isinstance(pos_data, dict):
-            self._last_pos_ms = pos_data.get("data", 0) if isinstance(pos_data, dict) else 0
-            self._last_pos_fetched_at = now
-        else:
-            if self._last_status == "playing":
-                elapsed_ms = (now - self._last_pos_fetched_at) * 1000
-                self._last_pos_ms += elapsed_ms
-            self._last_pos_fetched_at = now
 
         def _s(d, key):
             v = d.get(key, {})

@@ -3,6 +3,7 @@ import {
   PanelSectionRow,
   ToggleField,
   Navigation,
+  Focusable,
 } from "@decky/ui";
 import { routerHook } from "@decky/api";
 import {
@@ -11,7 +12,7 @@ import {
   toaster,
 } from "@decky/api"
 import { useState, useEffect } from "react";
-import { FaMusic, FaBluetooth, FaCog } from "react-icons/fa";
+import { FaMusic, FaBluetooth, FaPlay, FaPause, FaStepForward, FaStepBackward, FaRandom, FaRedo, FaCog } from "react-icons/fa";
 
 const play_pause = callable<[playing: boolean], void>("play_pause");
 const next = callable<[], void>("next");
@@ -105,13 +106,10 @@ const styles = {
     flexDirection: "row" as const,
     justifyContent: "center",
     alignItems: "center",
-    gap: 4,
+    gap: 12,
     padding: "2px 0 4px",
   },
   btn: {
-    background: "none",
-    border: "none",
-    color: "oklch(0.82 0.01 260)",
     cursor: "pointer",
     padding: "6px 10px",
     borderRadius: 6,
@@ -119,12 +117,9 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "background 0.15s, color 0.15s",
     lineHeight: 1,
   },
   btnPrimary: {
-    background: "oklch(0.96 0.005 260)",
-    color: "oklch(0.12 0.01 260)",
     padding: "7px 14px",
     fontSize: 18,
     borderRadius: 8,
@@ -164,6 +159,7 @@ const styles = {
     padding: 4,
     zIndex: 2,
     display: "flex",
+    width: "fit-content",
   },
   bluetoothBtn: {
     display: "flex",
@@ -198,7 +194,7 @@ function ProgressBar({ position, length }: { position: number; length: number })
         <div style={{
           height: "100%",
           width: `${pct}%`,
-          background: "oklch(0.78 0.14 260)",
+          background: "oklch(0.50 0.14 260)",
           borderRadius: 3,
           transition: "width 1s linear",
         }} />
@@ -227,42 +223,112 @@ function openBluetoothSettings() {
   }
 }
 
-function BluetoothButton() {
+function useInteractState(onAction?: () => void) {
   const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+
+  const flash = () => {
+    setPressed(true);
+    setTimeout(() => setPressed(false), 150);
+    onAction?.();
+  };
+
+  return {
+    hovered, pressed,
+    flash,
+    handlers: {
+      onFocus: () => setHovered(true),
+      onBlur: () => { setHovered(false); setPressed(false); },
+      onMouseEnter: () => setHovered(true),
+      onMouseLeave: () => { setHovered(false); setPressed(false); },
+      onMouseDown: () => setPressed(true),
+      onMouseUp: () => setPressed(false),
+    },
+  };
+}
+
+function GearButton() {
+  const navigate = () => { Navigation.CloseSideMenus(); Navigation.Navigate(SETTINGS_ROUTE); };
+  const { hovered, pressed, flash, handlers } = useInteractState(navigate);
+  const color = pressed
+    ? "oklch(0.35 0.01 260)"
+    : hovered
+    ? "oklch(0.55 0.01 260)"
+    : "oklch(0.96 0.005 260)";
   return (
-    <button
-      onClick={openBluetoothSettings}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        ...styles.bluetoothBtn,
-        ...(hovered ? { background: "oklch(0.62 0.14 250)" } : {}),
-      }}
+    <Focusable
+      style={{ ...styles.gear, color }}
+      {...handlers}
+      onActivate={flash}
+      onClick={flash}
+    >
+      <FaCog />
+    </Focusable>
+  );
+}
+
+function BluetoothButton() {
+  const { hovered, pressed, flash, handlers } = useInteractState(openBluetoothSettings);
+  const bg = pressed
+    ? "oklch(0.38 0.13 250)"
+    : hovered
+    ? "oklch(0.45 0.13 250)"
+    : "oklch(0.55 0.13 250)";
+  return (
+    <Focusable
+      {...handlers}
+      onActivate={flash}
+      onClick={flash}
+      style={{ ...styles.bluetoothBtn, background: bg }}
     >
       <FaBluetooth /> Connect a device
-    </button>
+    </Focusable>
   );
 }
 
 function CtrlBtn({ onClick, children, primary, active }: { onClick: () => void; children: React.ReactNode; primary?: boolean; active?: boolean }) {
-  const [hovered, setHovered] = useState(false);
+  const { hovered, pressed, flash, handlers } = useInteractState(onClick);
+
+  let bg = "none";
+  let color = "oklch(0.96 0.005 260)";
+
+  if (primary) {
+    bg = pressed
+      ? "oklch(0.42 0.14 260)"
+      : hovered
+      ? "oklch(0.55 0.14 260)"
+      : "oklch(0.50 0.14 260)";
+    color = "oklch(0.96 0.005 260)";
+  } else if (active) {
+    bg = pressed
+      ? "oklch(0.72 0.01 260)"
+      : hovered
+      ? "oklch(0.65 0.01 260)"
+      : "oklch(0.82 0.01 260)";
+    color = "oklch(0.12 0.01 260)";
+  } else {
+    bg = pressed
+      ? "oklch(0.22 0.01 260)"
+      : hovered
+      ? "oklch(0.28 0.01 260)"
+      : "none";
+  }
+
   return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <Focusable
+      {...handlers}
+      onActivate={flash}
+      onClick={flash}
       style={{
         ...styles.btn,
-        ...(primary ? styles.btnPrimary : {}),
-        ...(active && !primary ? { background: "oklch(0.82 0.01 260)", color: "oklch(0.12 0.01 260)" } : {}),
-        ...(hovered && !primary && !active ? { background: "oklch(0.28 0.01 260)", color: "oklch(0.96 0.005 260)" } : {}),
-        ...(hovered && !primary && active ? { background: "oklch(0.72 0.01 260)", color: "oklch(0.12 0.01 260)" } : {}),
-        ...(hovered && primary ? { background: "oklch(0.88 0.005 260)" } : {}),
+        background: bg,
+        color,
         outline: "none",
+        ...(primary ? styles.btnPrimary : {}),
       }}
     >
       {children}
-    </button>
+    </Focusable>
   );
 }
 
@@ -295,7 +361,6 @@ class AirDeckStore {
   private shuffleLock = 0;
   private repeatLock = 0;
   private intervalId?: number;
-  private ticks = 0;            // counts seconds; we poll BlueZ every few ticks
   private polling = false;      // guard against overlapping async polls
 
   // Notifications preference, persisted in localStorage (default on).
@@ -335,8 +400,7 @@ class AirDeckStore {
     // we hit BlueZ. One timeline → no race between two intervals fighting over position.
     this.intervalId = window.setInterval(() => {
       this.tick();
-      this.ticks = (this.ticks + 1) % 2;
-      if (this.ticks === 0) this.poll();
+      this.poll();
     }, 1000);
     this.poll(); // prime immediately on start
   }
@@ -395,7 +459,7 @@ class AirDeckStore {
       }
     } else {
       const drift = Math.abs(bluezPos - this.state.position);
-      position = drift > 3 ? bluezPos : this.state.position;
+      position = drift > 1 ? bluezPos : this.state.position;
     }
 
     this.set({
@@ -439,15 +503,10 @@ function Content() {
   return (
     <PanelSection>
       <PanelSectionRow>
-        <div style={{ ...styles.container, position: "relative" }}>
+        <Focusable style={{ ...styles.container, position: "relative" }} flow-children="column">
 
           {/* settings gear, top-right */}
-          <div
-            onClick={() => { Navigation.CloseSideMenus(); Navigation.Navigate(SETTINGS_ROUTE); }}
-            style={styles.gear}
-          >
-            <FaCog />
-          </div>
+          <GearButton />
 
           <div style={{ height: 12 }} />
 
@@ -486,21 +545,21 @@ function Content() {
 
 
           {/* Controls */}
-          <div style={styles.controls}>
+          <Focusable style={styles.controls} flow-children="horizontal">
             <CtrlBtn onClick={() => { shuffle(); store.lockShuffle(!onShuffle); }} active={onShuffle}>
-              ⇄
+              <FaRandom />
             </CtrlBtn>
-            <CtrlBtn onClick={() => previous()}>⏮</CtrlBtn>
+            <CtrlBtn onClick={() => previous()}><FaStepBackward /></CtrlBtn>
             <CtrlBtn onClick={() => { play_pause(isPlaying); store.setPlaying(!isPlaying); }} primary>
-              {isPlaying ? "⏸" : "▶"}
+              {isPlaying ? <FaPause /> : <FaPlay />}
             </CtrlBtn>
-            <CtrlBtn onClick={() => next()}>⏭</CtrlBtn>
+            <CtrlBtn onClick={() => next()}><FaStepForward /></CtrlBtn>
             <CtrlBtn onClick={() => { repeat(); store.lockRepeat(!onRepeat); }} active={onRepeat}>
-              ↺
+              <FaRedo />
             </CtrlBtn>
-          </div>
+          </Focusable>
 
-        </div>
+        </Focusable>
       </PanelSectionRow>
     </PanelSection>
   );
